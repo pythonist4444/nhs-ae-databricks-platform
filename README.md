@@ -1,8 +1,8 @@
 # NHS A&E Performance Platform
 
-A production-grade data engineering platform that ingests, transforms, and analyses NHS England A&E waiting time statistics using **Microsoft Fabric**, **Databricks**, and **dbt**.
+A production-grade data engineering platform that ingests, transforms, and analyses NHS England A&E waiting time statistics using **Microsoft Fabric**, **PySpark**, and **dbt**.
 
-![CI](https://github.com/YOUR_USERNAME/nhs-ae-databricks-platform/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/pythonist4444/nhs-ae-databricks-platform/actions/workflows/ci.yml/badge.svg)
 
 ---
 
@@ -20,8 +20,8 @@ NHS England (public CSV data)
 │  │  (raw)   │    │(cleaned) │    │ (dbt models) │   │
 │  └──────────┘    └──────────┘    └──────────────┘   │
 │        │                │                           │
-│   Databricks        Databricks           dbt-fabric │
-│   (ingest)          (PySpark)         (dim + facts)  │
+│  Fabric Spark      Fabric Spark        dbt-fabric   │
+│  (ingest)          (PySpark)        (dim + facts)   │
 └─────────────────────────────────────────────────────┘
         │
         ▼
@@ -34,7 +34,7 @@ NHS England (public CSV data)
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
 | Storage | Microsoft Fabric · OneLake | Unified lakehouse storage (Bronze/Silver/Gold) |
-| Compute | Azure Databricks (in Fabric) | PySpark ingestion and transformation |
+| Compute | Fabric Spark (PySpark) | Notebook-based ingestion and transformation |
 | Format | Delta Lake | ACID-compliant table format across all layers |
 | Transform | dbt-fabric | SQL models, tests, and documentation (Gold layer) |
 | CI/CD | GitHub Actions | dbt test on PR · dbt build on merge · docs deploy |
@@ -112,11 +112,13 @@ dbt docs generate && dbt docs serve   # view docs locally
 
 ### Running notebooks
 
-Open notebooks in order inside your Databricks environment connected to Fabric:
+Open notebooks in order inside your Fabric workspace:
 
 1. `00_onelake_connect_test.ipynb` — validate connection to OneLake
 2. `01_bronze_ingest.ipynb` — ingest raw CSVs to Bronze Delta table
 3. `02_silver_clean.ipynb` — clean and standardise to Silver Delta table
+
+> All notebooks run on Fabric's built-in Spark runtime. No external compute required.
 
 ---
 
@@ -125,8 +127,8 @@ Open notebooks in order inside your Databricks environment connected to Fabric:
 See [docs/architecture.md](docs/architecture.md) for full rationale on:
 - Why Medallion Architecture
 - Why Delta Lake over Parquet
+- Why Fabric Spark over external compute
 - Why dbt for the Gold layer
-- How Fabric + Databricks integration works
 - Data quality approach
 
 ---
@@ -140,4 +142,4 @@ See [docs/architecture.md](docs/architecture.md) for full rationale on:
 ## Author
 
 **Abdulafeez Fakorede** — Senior Data Engineer  
-[LinkedIn](#) · [GitHub](#)
+[LinkedIn](#) · [GitHub](https://github.com/pythonist4444)
