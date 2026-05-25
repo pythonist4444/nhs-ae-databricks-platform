@@ -1,0 +1,8 @@
+# This file keeps the data/raw/ folder in git.
+# CSV source files are gitignored — download them from:
+# https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/
+#
+# Organise downloads as:
+#   data/raw/ae_monthly/2021-22/
+#   data/raw/ae_monthly/2022-23/
+#   data/raw/ae_monthly/2023-24/

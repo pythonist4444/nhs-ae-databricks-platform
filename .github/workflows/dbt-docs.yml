@@ -1,0 +1,66 @@
+name: Publish dbt docs
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy-docs:
+    name: Generate and deploy dbt docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    defaults:
+      run:
+        working-directory: dbt/nhs_ae
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dbt-fabric
+        run: pip install dbt-fabric
+
+      - name: Install dbt packages
+        run: dbt deps
+
+      - name: Generate dbt docs
+        env:
+          FABRIC_SERVER: ${{ secrets.FABRIC_SERVER }}
+          FABRIC_DATABASE: ${{ secrets.FABRIC_DATABASE }}
+        run: dbt docs generate
+
+      - name: Move docs to publish folder
+        run: |
+          mkdir -p ../../_site
+          cp target/index.html ../../_site/
+          cp target/catalog.json ../../_site/
+          cp target/manifest.json ../../_site/
+          cp target/run_results.json ../../_site/ || true
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload docs artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,36 @@
+# profiles.yml.example
+# Copy this file to profiles.yml and fill in your Fabric details.
+# profiles.yml is gitignored — never commit it.
+#
+# Find your SQL connection string in:
+# Fabric workspace → Lakehouse → SQL endpoint → Connection strings
+
+nhs_ae:
+  target: dev
+  outputs:
+    dev:
+      type: fabric
+      driver: "ODBC Driver 18 for SQL Server"
+      server: YOUR_FABRIC_SERVER.datawarehouse.fabric.microsoft.com
+      port: 1433
+      database: nhs_ae_lakehouse
+      schema: gold
+      authentication: CLI         # uses your local az login session
+      encrypt: true
+      trust_cert: false
+      retries: 3
+
+    prod:
+      type: fabric
+      driver: "ODBC Driver 18 for SQL Server"
+      server: "{{ env_var('FABRIC_SERVER') }}"
+      port: 1433
+      database: "{{ env_var('FABRIC_DATABASE') }}"
+      schema: gold
+      authentication: ServicePrincipal
+      tenant_id: "{{ env_var('FABRIC_TENANT_ID') }}"
+      client_id: "{{ env_var('FABRIC_CLIENT_ID') }}"
+      client_secret: "{{ env_var('FABRIC_CLIENT_SECRET') }}"
+      encrypt: true
+      trust_cert: false
+      retries: 3
