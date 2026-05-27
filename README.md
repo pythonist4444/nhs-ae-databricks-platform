@@ -41,7 +41,7 @@ NHS England (public monthly CSV data)
 
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
-| Platform | Microsoft Fabric (60-day F64 trial) | Unified lakehouse platform |
+| Platform | Microsoft Fabric | Unified lakehouse platform |
 | Storage | OneLake | Single storage layer across all medallion zones |
 | Compute | Fabric Spark (PySpark) | Notebook-based ingestion and transformation |
 | Format | Delta Lake | ACID-compliant table format across all layers |
@@ -138,13 +138,8 @@ See [docs/architecture.md](docs/architecture.md) for full rationale covering:
 
 ---
 
-## Demo
-
-🎥 [Watch the 2-minute walkthrough](#) ← add YouTube link here
-
----
 
 ## Author
 
 **Abdulafeez Fakorede** — Senior Data Engineer  
-[LinkedIn](#) · [GitHub](https://github.com/pythonist4444)
+[LinkedIn](https://www.linkedin.com/in/abdulafeezfakorede/) · [GitHub](https://github.com/pythonist4444)
